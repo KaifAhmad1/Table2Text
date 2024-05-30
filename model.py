@@ -3,7 +3,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import dspy
 from dsp.modules.lm import LM
-from config import MODEL_ID, MAX_OUTPUT_TOKENS
+from config import MODEL_ID, MAX_OUTPUT_TOKENS, HF_TOKEN
 from utils import dataframe_to_string
 
 class HFModel(LM):
@@ -51,13 +51,14 @@ def initialize_model():
 
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_ID,
+        use_auth_token=HF_TOKEN,
         trust_remote_code=True,
         device_map='auto',
         quantization_config=bnb_config,
         low_cpu_mem_usage=True
     )
 
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, use_auth_token=HF_TOKEN)
 
     llama = HFModel(model, tokenizer)
     dspy.settings.configure(lm=llama, max_output_tokens=MAX_OUTPUT_TOKENS)
