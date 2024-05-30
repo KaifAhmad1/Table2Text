@@ -1,7 +1,7 @@
-# User Interface Script 
+# app.py
 import streamlit as st
 import pandas as pd
-from chatbot import initialize_model, chatbot
+from model import initialize_model, chatbot  # Update this line
 from utils import display_data
 
 def main():
@@ -31,4 +31,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
