@@ -1,1 +1,9 @@
-
+transformers
+dspy-ai
+huggingface_hub
+python-dotenv
+accelerate
+bitsandbytes
+sentence_transformers
+pandas
+streamlit
