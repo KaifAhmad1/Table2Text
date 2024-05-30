@@ -1,7 +1,7 @@
 # app.py
 import streamlit as st
 import pandas as pd
-from model import initialize_model, chatbot  # Update this line
+from model import initialize_model, chatbot  # Correct import statement
 from utils import display_data
 
 def main():
