@@ -1,11 +1,11 @@
-# Import Required Libraries:
+# model.py
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import dspy
 from dsp.modules.lm import LM
 from config import MODEL_ID, MAX_OUTPUT_TOKENS
 from utils import dataframe_to_string
-# Adding Llama3 to DSPy 
+
 class HFModel(LM):
     def __init__(self, model, tokenizer, **kwargs):
         super().__init__(model)
@@ -40,11 +40,10 @@ class HFModel(LM):
     def __call__(self, prompt, only_completed=True, return_sorted=False, **kwargs):
         response = self.request(prompt, **kwargs)
         return [c["text"] for c in response["choices"]]
-      
-# Model Laoding and Quantization 
+
 def initialize_model():
     bnb_config = BitsAndBytesConfig(
-        load_in_4bit=True,
+        load_in 4bit=True,
         bnb_4bit_quant_type='nf4',
         bnb_4bit_use_double_quant=True,
         bnb_4bit_compute_dtype=torch.bfloat16
@@ -59,11 +58,10 @@ def initialize_model():
     )
 
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
-# Setting up the LM
+
     llama = HFModel(model, tokenizer)
     dspy.settings.configure(lm=llama, max_output_tokens=MAX_OUTPUT_TOKENS)
 
-# Creating the QASignature and CoT:
 class QASignature(dspy.Signature):
     query = dspy.InputField(desc="The initial query")
     data = dspy.InputField(desc="The tabular data containing text and numerical columns")
