@@ -4,6 +4,7 @@ from langchain_groq import ChatGroq
 from langchain.vectorstores import FAISS
 from langchain.docstore import InMemoryDocstore
 from .config import API_KEY, MODEL_NAME, TEMPERATURE
+import faiss 
 
 def create_chain(dataframe):
     mistral = ChatGroq(temperature=TEMPERATURE, groq_api_key=API_KEY, model_name=MODEL_NAME)
