@@ -1,25 +1,36 @@
 # Table2Text
-Table2Text is a Streamlit application powered by Llama 3 by Meta and DSPy framework that can assist queries related to Tabular data which consist of textual and mumerical info. Eg Panas Dataframe 
-
-```
+Table2Text is a Streamlit application powered by Llama 3 by Meta and Llama 3 framework that can assist queries related to Tabular data which consist of textual and mumerical info. Eg Panas Dataframe 
+``` 
 Table2Text/
-├── app.py            
-├── config.py           
-├── model.py           
-├── requirements.txt     
-├── utils.py            
-└── README.md    
-```
- - ### **Detailed Explanation of Project Files:** 
-     - **`app.py`** This is the main script that runs the Streamlit application. It sets up the web interface, handles file uploads, and interacts with the chatbot model to process queries.
+│
+├── app/
+│ ├── init.py 
+│ ├── model.py 
+│ └── config.py 
+│
+├── app.py 
+│
+├── README.md 
+│
+└── requirements.txt 
+``` 
 
-     - **`config.py`** This file contains configuration parameters for the model, such as the model ID, maximum output tokens and huggingface access token.
+## Detailed Explanation of Project Files
 
-     - **`model.py`** This script handles the loading and interaction with the Llama3 model. It includes functions to initialize the model, perform quantization, and define the chatbot's behaviour.
+- ### **`app.py`**
+  This is the main script that runs the Streamlit application. It sets up the web interface, handles file uploads, and interacts with the chatbot model to process queries.
 
-     - **`requirements.txt`** This file lists all the Python dependencies required for the project. Use pip install -r requirements.txt to install these dependencies.
+- ### **`config.py`**
+  This file contains configuration parameters for the model, such as the model ID, maximum output tokens, and the Groq API key.
 
-     - **`utils.py`** This script contains utility functions for handling and displaying data. Functions include converting a DataFrame to a string and displaying data in the Streamlit application.
+- ### **`model.py`**
+  This script handles the creation and interaction with the Langchain model. It includes functions to initialize the model and define the chatbot's behavior.
+
+- ### **`requirements.txt`**
+  This file lists all the Python dependencies required for the project. Use `pip install -r requirements.txt` to install these dependencies.
+
+- ### **`__init__.py`**
+  This file can be empty or used to initialize the package.
 
 
 - ### **How to run**
@@ -39,8 +50,6 @@ Table2Text/
         ``` sh
         streamlit run app.py
         ```
-
-
 
          
 
