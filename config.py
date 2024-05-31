@@ -1,3 +1,3 @@
-MODEL_ID = 'meta-llama/Meta-Llama-3-8B'
-MAX_OUTPUT_TOKENS = 200
-HF_TOKEN = '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'
+API_KEY = "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"
+MODEL_NAME = "mixtral-8x7b-32768"
+TEMPERATURE = 0
