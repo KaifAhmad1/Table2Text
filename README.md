@@ -1,5 +1,5 @@
 # Table2Text
-Table2Text is a Streamlit application powered by Llama 3 by Meta and Llama 3 framework that can assist queries related to Tabular data which consist of textual and mumerical info. Eg Panas Dataframe 
+Table2Text is a Streamlit application powered by Llama 3 by Meta and Langchain framework that can assist queries related to Tabular data which consist of textual and mumerical info. Eg Panas Dataframe 
 ``` 
 Table2Text/
 │
