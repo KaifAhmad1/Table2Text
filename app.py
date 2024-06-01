@@ -1,44 +1,61 @@
 import pandas as pd
-import chainlit as cl
+import streamlit as st
 from app.model import create_chain
 
-# Initialize the Chainlit app with title and description
-chainlit = cl.Chainlit(title="Conversational Data Analysis", description="Analyze your tabular data using natural language queries.")
+# Initialize the Streamlit app with title and description
+st.set_page_config(page_title="Conversational Data Analysis", page_icon=":bar_chart:", layout="wide")
+st.title("Conversational Data Analysis")
+st.write("Analyze your tabular data using natural language queries.")
 
 # Add a logo or banner image
-chainlit.preview_markdown("![Logo](https://example.com/logo.png)")
+st.image("https://example.com/logo.png")
 
 # Define the conversational chain
-@chainlit.add_chain
+@st.cache
 def conversational_chain(df, query):
     chain = create_chain(df)
     return chain.run(query=query, data=df)
 
 # Handle CSV file upload
-uploaded_file = chainlit.upload_file("Upload your CSV file", file_types=["csv"])
+uploaded_file = st.sidebar.file_uploader("Upload your CSV file", type="csv")
 
 if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+    # Show a progress bar while the data is being loaded
+    with st.spinner('Loading data...'):
+        df = pd.read_csv(uploaded_file)
 
-    # Display a data preview with interactive options
-    chainlit.data_preview(df, ignore_columns=["id"], display_rows=5, display_columns=4, column_filters=True, column_sorting=True, column_selection=True)
+    # Create tabs for different sections of the app
+    tab1, tab2 = st.tabs(["Data Preview", "Query"])
 
-    # Add a section for query input
-    chainlit.markdown("## Ask your query")
-    query = chainlit.input_text("Enter your query", placeholder="Type your query here...")
+    with tab1:
+        # Allow users to filter the data
+        column = st.selectbox("Select a column to filter", df.columns)
+        values = st.multiselect("Select values to include", df[column].unique())
+        df = df[df[column].isin(values)]
 
-    # Run the chain and display the response
-    if query:
-        result = conversational_chain(df, query)
-        chainlit.markdown(f"**Response:** {result}")
+        # Display a data preview with interactive options
+        st.dataframe(df)
 
-    # Display conversation history
-    chainlit.markdown("## Conversation History")
-    with chainlit.expander("View Conversation History"):
-        for i, (q, r) in enumerate(chainlit.session.memory.values(), start=1):
-            chainlit.markdown(f"**Query {i}:** {q}")
-            chainlit.markdown(f"**Response {i}:** {r}")
+        # Display an interactive chart
+        column = st.selectbox("Select a column to display", df.columns)
+        st.line_chart(df[column])
+
+        # Allow users to download the data
+        csv = df.to_csv(index=False)
+        st.download_button("Download data", data=csv, file_name="data.csv", mime="text/csv")
+
+    with tab2:
+        # Add a section for query input
+        st.header("Ask your query")
+        query = st.text_input("Enter your query", placeholder="Type your query here...")
+
+        # Run the chain and display the response
+        if query:
+            try:
+                result = conversational_chain(df, query)
+                st.write(f"**Response:** {result}")
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
 else:
-    chainlit.preview_text("Please upload a CSV file to get started.")
-
-chainlit.run()
+    st.write("Please upload a CSV file to get started.")
+    st.balloons()
