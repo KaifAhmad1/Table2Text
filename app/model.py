@@ -7,11 +7,11 @@ from langchain.docstore.document import Document
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.retrievers import BM25Retriever
 from langchain.memory import ConversationBufferMemory
-from app.config import API_KEY, MODEL_NAME, TEMPERATURE
+# from app.config import API_KEY, MODEL_NAME, TEMPERATURE
 
 def create_chain(dataframe):
     # Initialize the language model
-    mistral = ChatGroq(temperature=TEMPERATURE, groq_api_key="API_KEY", model_name="MODEL_NAME")
+    mistral = ChatGroq(temperature=0.3, groq_api_key="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", model_name="mixtral-8x7b-32768")
 
     # Define the prompt template
     prompt_template = """
