@@ -11,7 +11,7 @@ from app.config import API_KEY, MODEL_NAME, TEMPERATURE
 
 def create_chain(dataframe):
     # Initialize the language model
-    mistral = ChatGroq(TEMPERATURE, groq_api_key="API_KEY", model_name="MODEL_NAME")
+    mistral = ChatGroq(temperature=TEMPERATURE, groq_api_key="API_KEY", model_name="MODEL_NAME")
 
     # Define the prompt template
     prompt_template = """
