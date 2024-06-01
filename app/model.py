@@ -1,10 +1,10 @@
 from langchain.chains import ConversationalRetrievalChain
 from langchain.prompts import PromptTemplate
 from langchain_groq import ChatGroq
-from langchain.vectorstores import FAISS
-from langchain.docstore import InMemoryDocstore
 from .config import API_KEY, MODEL_NAME, TEMPERATURE
 import faiss 
+from langchain.vectorstores import FAISS
+from langchain.docstore import InMemoryDocstore
 
 def create_chain(dataframe):
     mistral = ChatGroq(temperature=TEMPERATURE, groq_api_key=API_KEY, model_name=MODEL_NAME)
@@ -16,15 +16,17 @@ def create_chain(dataframe):
     """
     prompt = PromptTemplate(input_variables=["data", "query"], template=prompt_template)
 
-    # Create an InMemoryDocstore and add the DataFrame records
+    # Create an InMemoryDocstore
     docstore = InMemoryDocstore(dataframe.to_dict(orient="records"))
 
-    # Create a FAISS vector store from the docstore
-    vectorstore = FAISS.from_docstore(docstore)
+    # Convert the docstore to a list of texts
+    texts = [doc.page_content for doc in docstore]
+
+    # Create the FAISS vector store
+    vectorstore = FAISS.from_texts(texts)
 
     # Create the VectorStoreRetrieverMemory retriever
     retriever = vectorstore.as_retriever()
-
     memory_stream = []
     chain = ConversationalRetrievalChain.from_llm(
         llm=mistral,
