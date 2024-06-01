@@ -1,9 +1,11 @@
 langchain
 langchain-groq
 langchain-community
+faiss-cpu
+sentence-transformers
+rank_bm25
 streamlit
 pandas
-faiss-cpu
 plotly 
 seaborn 
 matplotlib 
