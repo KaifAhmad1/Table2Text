@@ -38,6 +38,3 @@ def create_chain(dataframe):
         prompt=prompt
     )
     return chain
-    prompt = create_prompt_template()
-
-    return ConversationalRetrievalChain.from_llm(llm=mistral, retriever=retriever, memory_stream=[], prompt=prompt)
