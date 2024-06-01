@@ -3,8 +3,8 @@ from langchain.prompts import PromptTemplate
 from langchain_groq import ChatGroq
 from .config import API_KEY, MODEL_NAME, TEMPERATURE
 import faiss 
-from langchain.vectorstores import FAISS
-from langchain.docstore import InMemoryDocstore
+from langchain_community.vectorstores import FAISS
+from langchain_community.docstore.in_memory import InMemoryDocstore
 
 def create_chain(dataframe):
     mistral = ChatGroq(temperature=TEMPERATURE, groq_api_key=API_KEY, model_name=MODEL_NAME)
@@ -20,7 +20,7 @@ def create_chain(dataframe):
     docstore = InMemoryDocstore(dataframe.to_dict(orient="records"))
 
     # Convert the docstore to a list of texts
-    texts = [doc.page_content for doc in docstore]
+    texts = [doc.page_content for doc in docstore.docs]
 
     # Create the FAISS vector store
     vectorstore = FAISS.from_texts(texts)
