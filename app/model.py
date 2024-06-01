@@ -7,6 +7,7 @@ from langchain.docstore.document import Document
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.retrievers import BM25Retriever
 from langchain.memory import ConversationBufferMemory
+from app.config import API_KEY, MODEL_NAME, TEMPERATURE
 
 def create_chain(dataframe):
     # Initialize the language model
