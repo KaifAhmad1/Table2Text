@@ -5,8 +5,18 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from app.model import create_chain
 
-# Set the page configuration and theme
-st.set_page_config(page_title="Conversational Data Analysis", page_icon=":bar_chart:", layout="wide", theme="dark")
+# Set the page configuration
+st.set_page_config(page_title="Conversational Data Analysis", page_icon=":bar_chart:", layout="wide")
+
+# Add a dark theme
+st.markdown("""
+<style>
+body {
+    color: #fff;
+    background-color: #111;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # Add a logo or banner image
 st.image("https://example.com/logo.png")
@@ -18,8 +28,8 @@ def conversational_chain(df, question):
     return chain.run(question=question, data=df)
 
 # Add a title and description
-st.title("Table2Text")
-st.write("A Conversational Data Analysis tool which Analyze your tabular data using natural language queries.")
+st.title("Conversational Data Analysis")
+st.write("Analyze your tabular data using natural language queries.")
 
 # Handle CSV file upload
 uploaded_file = st.sidebar.file_uploader("Upload your CSV file", type="csv")
