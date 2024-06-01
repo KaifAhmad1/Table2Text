@@ -14,7 +14,7 @@ st.write("Analyze your tabular data using natural language queries.")
 st.image("https://example.com/logo.png")
 
 # Define the conversational chain
-@st.cache
+@st.cache_data
 def conversational_chain(df, query):
     chain = create_chain(df)
     return chain.run(query=query, data=df)
@@ -31,34 +31,42 @@ if uploaded_file is not None:
     tab1, tab2, tab3 = st.tabs(["Data Preview", "Query", "Data Exploration"])
 
     with tab1:
+        st.subheader("Data Preview")
+        st.write("Here you can preview and filter your data.")
+
         # Allow users to filter the data
-        column = st.selectbox("Select a column to filter", df.columns)
-        values = st.multiselect("Select values to include", df[column].unique())
-        df = df[df[column].isin(values)]
+        with st.expander("Filter Data"):
+            column = st.selectbox("Select a column to filter", df.columns, key='filter_column')
+            values = st.multiselect("Select values to include", df[column].unique(), key='filter_values')
+            if values:
+                df_filtered = df[df[column].isin(values)]
+            else:
+                df_filtered = df
+            st.dataframe(df_filtered)
 
-        # Display a data preview with interactive options
-        st.dataframe(df)
-
-        # Allow users to download the data
-        csv = df.to_csv(index=False)
-        st.download_button("Download data", data=csv, file_name="data.csv", mime="text/csv")
+        # Allow users to download the filtered data
+        csv = df_filtered.to_csv(index=False)
+        st.download_button("Download filtered data", data=csv, file_name="filtered_data.csv", mime="text/csv")
 
     with tab2:
+        st.subheader("Ask Your Query")
+        st.write("Use natural language to ask questions about your data.")
+
         # Add a section for query input
-        st.header("Ask your query")
-        query = st.text_input("Enter your query", placeholder="Type your query here...")
+        query = st.text_input("Enter your query", placeholder="Type your query here...", key='query_input')
 
         # Run the chain and display the response
         if query:
-            try:
-                result = conversational_chain(df, query)
-                st.write(f"**Response:** {result}")
-            except Exception as e:
-                st.error(f"An error occurred: {e}")
+            with st.spinner('Processing your query...'):
+                try:
+                    result = conversational_chain(df, query)
+                    st.write(f"**Response:** {result}")
+                except Exception as e:
+                    st.error(f"An error occurred: {e}")
 
     with tab3:
-        # Add a section for data exploration
-        st.header("Explore your data")
+        st.subheader("Explore Your Data")
+        st.write("Visualize your data with various plots and charts.")
 
         # Display statistical summaries
         st.subheader("Statistical Summary")
@@ -66,23 +74,30 @@ if uploaded_file is not None:
 
         # Display scatter plot
         st.subheader("Scatter Plot")
-        x_column = st.selectbox("Select a column for the x-axis", df.columns)
-        y_column = st.selectbox("Select a column for the y-axis", df.columns)
-        fig = px.scatter(df, x=x_column, y=y_column, hover_data=df.columns)
+        col1, col2 = st.columns(2)
+        with col1:
+            x_column_scatter = st.selectbox("Select a column for the x-axis", df.columns, key='scatter_x')
+        with col2:
+            y_column_scatter = st.selectbox("Select a column for the y-axis", df.columns, key='scatter_y')
+        fig = px.scatter(df, x=x_column_scatter, y=y_column_scatter, hover_data=df.columns)
         st.plotly_chart(fig)
 
         # Display bar chart
         st.subheader("Bar Chart")
-        x_column = st.selectbox("Select a column for the x-axis", df.columns)
-        y_column = st.selectbox("Select a column for the y-axis", df.columns)
-        fig = px.bar(df, x=x_column, y=y_column)
+        col1, col2 = st.columns(2)
+        with col1:
+            x_column_bar = st.selectbox("Select a column for the x-axis", df.columns, key='bar_x')
+        with col2:
+            y_column_bar = st.selectbox("Select a column for the y-axis", df.columns, key='bar_y')
+        fig = px.bar(df, x=x_column_bar, y=y_column_bar)
         st.plotly_chart(fig)
 
         # Display heatmap
         st.subheader("Heatmap")
         fig, ax = plt.subplots()
-        sns.heatmap(df.corr(), annot=True, ax=ax)
+        sns.heatmap(df.corr(), annot=True, ax=ax, cmap="coolwarm")
         st.pyplot(fig)
+
 else:
     st.write("Please upload a CSV file to get started.")
     st.balloons()
