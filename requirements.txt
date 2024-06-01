@@ -1,6 +1,6 @@
 langchain
 langchain-groq
 langchain-community
-chainlit
+streamlit
 pandas
 faiss-cpu
