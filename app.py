@@ -1,37 +1,43 @@
-# App.py Module 
+# app.py
 import pandas as pd
-import streamlit as st
+from chainlit import Chainlit, Image
 from app.model import create_chain
 
-st.set_page_config(page_title="Conversational Data Analysis", layout="wide")
+chainlit = Chainlit(title="Conversational Data Analysis", description="Analyze your tabular data using natural language queries.")
 
-st.title("Conversational Data Analysis")
+# Add a logo or banner image
+chainlit.preview_markdown("![Logo](https://example.com/logo.png)")
 
-uploaded_file = st.file_uploader("Upload your CSV file", type="csv")
+@chainlit.add_chain
+def conversational_chain(df, query):
+    chain = create_chain(df)
+    return chain.run(query=query, data=df)
 
-if 'memory_stream' not in st.session_state:
-    st.session_state.memory_stream = []
-
-if 'chain' not in st.session_state:
-    st.session_state.chain = None
+# Upload CSV file
+uploaded_file = chainlit.upload_file("Upload your CSV file", file_types=["csv"])
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
-    st.write("Here is the data you uploaded:")
-    st.write(df)
 
-    if st.session_state.chain is None:
-        st.session_state.chain = create_chain(df)
+    # Display a data preview with interactive options
+    chainlit.data_preview(df, ignore_columns=["id"], display_rows=5, display_columns=4, column_filters=True, column_sorting=True, column_selection=True)
 
-    query = st.text_input("Enter your query:")
+    # Add a section for query input
+    chainlit.markdown("## Ask your query")
+    query = chainlit.input_text("Enter your query", placeholder="Type your query here...")
 
+    # Run the chain and display the response
     if query:
-        result = st.session_state.chain.predict(query=query)
-        st.session_state.memory_stream.append((query, result))
+        result = conversational_chain(df, query)
+        chainlit.markdown(f"**Response:** {result}")
 
-        st.subheader("Query History and Responses")
-        for i, (q, r) in enumerate(st.session_state.memory_stream):
-            st.markdown(f"**Query {i+1}:** {q}")
-            st.markdown(f"**Response {i+1}:** {r}")
+    # Display conversation history
+    chainlit.markdown("## Conversation History")
+    with chainlit.expander("View Conversation History"):
+        for i, (q, r) in enumerate(chainlit.session.memory.values(), start=1):
+            chainlit.markdown(f"**Query {i}:** {q}")
+            chainlit.markdown(f"**Response {i}:** {r}")
 else:
-    st.write("Please upload a CSV file to get started.")
+    chainlit.preview_text("Please upload a CSV file to get started.")
+
+chainlit.run()
