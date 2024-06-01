@@ -15,9 +15,9 @@ st.image("https://example.com/logo.png")
 
 # Define the conversational chain
 @st.cache_data
-def conversational_chain(df, query):
+def conversational_chain(df, question):
     chain = create_chain(df)
-    return chain.run(query=query, data=df)
+    return chain.run(question=question, data=df)
 
 # Handle CSV file upload
 uploaded_file = st.sidebar.file_uploader("Upload your CSV file", type="csv")
@@ -53,13 +53,13 @@ if uploaded_file is not None:
         st.write("Use natural language to ask questions about your data.")
 
         # Add a section for query input
-        query = st.text_input("Enter your query", placeholder="Type your query here...", key='query_input')
+        question = st.text_input("Enter your query", placeholder="Type your query here...", key='query_input')
 
         # Run the chain and display the response
-        if query:
+        if question:
             with st.spinner('Processing your query...'):
                 try:
-                    result = conversational_chain(df, query)
+                    result = conversational_chain(df, question)
                     st.write(f"**Response:** {result}")
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
