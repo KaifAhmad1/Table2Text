@@ -1,5 +1,5 @@
 import pandas as pd
-from langchain.chains import RetrievalQA
+from langchain.chains import ConversationalRetrievalChain
 from langchain.prompts import PromptTemplate
 from langchain_groq import ChatGroq
 from langchain_community.vectorstores import FAISS
@@ -15,7 +15,8 @@ def create_chain(dataframe):
     # Define the prompt template
     prompt_template = """
     You are an AI assistant skilled at analyzing tabular data and generating insights based on natural language queries.
-    Given this query: {query}
+    Given this query: {question}
+    And the following data: {context}
     Please provide a detailed response that summarizes the key insights from the data relevant to the query. If necessary, you can perform calculations or aggregations on the data to derive insights. Your response should be tailored to the specific query and provide a thorough analysis of the data.
     Here are some examples of good queries:
     - What is the average age of employees in each department?
@@ -37,23 +38,28 @@ def create_chain(dataframe):
     - Round numbers to two decimal places when presenting results.
     - Use appropriate statistical methods for data aggregation and analysis.
     - Handle missing values, outliers, and invalid inputs appropriately.
+    Chat History:
+    {chat_history}
     """
-    prompt = PromptTemplate(input_variables=["query"], template=prompt_template)
+    prompt = PromptTemplate(input_variables=["question", "chat_history", "context"], template=prompt_template)
 
     # Convert the dataframe to a list of Document objects
-    documents = [Document(page_content=str(row)) for row in dataframe.to_dict(orient="records")]
+    documents = [Document(page_content=str(row), metadata={'source': 'TableData.csv'}) for row in dataframe.to_dict(orient="records")]
 
     # Create the vector store and retriever
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
     vectorstore = FAISS.from_documents(documents, embeddings)
     retriever = BM25Retriever.from_documents(documents)
 
+    # Create the memory
+    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+
     # Create the chain
-    chain = RetrievalQA.from_chain_type(
+    chain = ConversationalRetrievalChain.from_llm(
         llm=mistral,
-        chain_type="stuff",
         retriever=retriever,
-        prompt=prompt
+        memory=memory,
+        combine_docs_chain_kwargs={"prompt": prompt}
     )
 
     return chain
