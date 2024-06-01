@@ -5,3 +5,5 @@ streamlit
 pandas
 faiss-cpu
 plotly 
+seaborn 
+matplotlib 
