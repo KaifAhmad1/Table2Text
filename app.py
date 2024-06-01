@@ -1,19 +1,20 @@
-# app.py
 import pandas as pd
-from chainlit import Chainlit, Image
+import chainlit as cl
 from app.model import create_chain
 
-chainlit = Chainlit(title="Conversational Data Analysis", description="Analyze your tabular data using natural language queries.")
+# Initialize the Chainlit app with title and description
+chainlit = cl.Chainlit(title="Conversational Data Analysis", description="Analyze your tabular data using natural language queries.")
 
 # Add a logo or banner image
 chainlit.preview_markdown("![Logo](https://example.com/logo.png)")
 
+# Define the conversational chain
 @chainlit.add_chain
 def conversational_chain(df, query):
     chain = create_chain(df)
     return chain.run(query=query, data=df)
 
-# Upload CSV file
+# Handle CSV file upload
 uploaded_file = chainlit.upload_file("Upload your CSV file", file_types=["csv"])
 
 if uploaded_file is not None:
