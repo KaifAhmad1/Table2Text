@@ -1,14 +1,4 @@
-import pandas as pd
-from langchain.chains import ConversationalRetrievalChain
-from langchain.prompts import PromptTemplate
-from langchain_groq import ChatGroq
-from langchain_community.vectorstores import FAISS
-from langchain.docstore.document import Document
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.retrievers import BM25Retriever
-from langchain.memory import ConversationBufferMemory
-
-def create_chain(dataframe):
+def create_chain(data, question):
     # Initialize the language model
     mistral = ChatGroq(temperature=0.3, groq_api_key="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", model_name="mixtral-8x7b-32768")
 
@@ -44,7 +34,7 @@ def create_chain(dataframe):
     prompt = PromptTemplate(input_variables=["question", "chat_history", "context"], template=prompt_template)
 
     # Convert the dataframe to a list of Document objects
-    documents = [Document(page_content=str(row), metadata={'source': 'TableData.csv'}) for row in dataframe.to_dict(orient="records")]
+    documents = [Document(page_content=str(row), metadata={'source': 'TableData.csv'}) for row in data.to_dict(orient="records")]
 
     # Create the vector store and retriever
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
