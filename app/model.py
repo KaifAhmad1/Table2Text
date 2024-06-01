@@ -5,6 +5,7 @@ from langchain_groq import ChatGroq
 from.config import API_KEY, MODEL_NAME, TEMPERATURE
 from langchain_community.vectorstores import FAISS
 from langchain.docstore.document import Document
+from langchain.embeddings import HuggingFaceEmbeddings
 import pandas as pd
 
 def create_chain(dataframe):
@@ -17,11 +18,15 @@ def create_chain(dataframe):
     """
     prompt = PromptTemplate(input_variables=["data", "query"], template=prompt_template)
 
-    # Create a list of Document objects from the dataframe
+    # Load the pre-trained embedding model
+    embeddings_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
+
+    # Create a list of Document objects from the dataframe and generate embeddings
     documents = [Document(page_content=str(row)) for row in dataframe.to_dict(orient="records")]
+    embeddings = [embeddings_model.embed_query(doc.page_content) for doc in documents]
 
     # Create the FAISS vector store
-    vectorstore = FAISS.from_documents(documents)
+    vectorstore = FAISS.from_documents(documents, embeddings)
 
     # Create the VectorStoreRetrieverMemory retriever
     retriever = vectorstore.as_retriever()
@@ -33,7 +38,6 @@ def create_chain(dataframe):
         prompt=prompt
     )
     return chain
-
     prompt = create_prompt_template()
 
     return ConversationalRetrievalChain.from_llm(llm=mistral, retriever=retriever, memory_stream=[], prompt=prompt)
