@@ -5,7 +5,7 @@ from langchain_groq import ChatGroq
 from langchain_community.vectorstores import FAISS
 from langchain.docstore.document import Document
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain.retrievers import BM25Retriever
+from langchain_community.retrievers import BM25Retriever
 from langchain.memory import ConversationBufferMemory
 
 def create_chain(dataframe):
@@ -16,8 +16,6 @@ def create_chain(dataframe):
     prompt_template = """
     You are an AI assistant skilled at analyzing tabular data and generating insights based on natural language queries.
     Given this query: {query}
-    And this context: {context}
-    And this chat history: {chat_history}
     Please provide a detailed response that summarizes the key insights from the data relevant to the query. If necessary, you can perform calculations or aggregations on the data to derive insights. Your response should be tailored to the specific query and provide a thorough analysis of the data.
     Here are some examples of good queries:
     - What is the average age of employees in each department?
@@ -40,7 +38,7 @@ def create_chain(dataframe):
     - Use appropriate statistical methods for data aggregation and analysis.
     - Handle missing values, outliers, and invalid inputs appropriately.
     """
-    prompt = PromptTemplate(input_variables=["query", "context", "chat_history"], template=prompt_template)
+    prompt = PromptTemplate(input_variables=["query"], template=prompt_template)
 
     # Convert the dataframe to a list of Document objects
     documents = [Document(page_content=str(row)) for row in dataframe.to_dict(orient="records")]
@@ -50,15 +48,12 @@ def create_chain(dataframe):
     vectorstore = FAISS.from_documents(documents, embeddings)
     retriever = BM25Retriever.from_documents(documents)
 
-    # Create the memory
-    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-
     # Create the chain
     chain = RetrievalQA.from_chain_type(
         llm=mistral,
         chain_type="stuff",
         retriever=retriever,
-        prompt=prompt,
-        memory=memory
+        prompt=prompt
     )
+
     return chain
