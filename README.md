@@ -18,7 +18,7 @@ Table2Text/
 ## Detailed Explanation of Project Files
 
 - ### **`app.py`**
-  This is the main script that runs the Streamlit application. It sets up the web interface, handles file uploads, and interacts with the chatbot model to process queries.
+  This is the main script that runs the Chainlit application. It sets up the web interface, handles file uploads, and interacts with the chatbot model to process queries.
 
 - ### **`config.py`**
   This file contains configuration parameters for the model, such as the model ID, maximum output tokens, and the Groq API key.
@@ -46,9 +46,9 @@ Table2Text/
          ``` sh
          pip install -r requirements.txt
          ```
-  - 4. **Run the Streamlit Application:** Run the Streamlit application by executing the `app.py` script
+  - 4. **Run the Streamlit Application:** Run the Chainlit application by executing the `app.py` script
         ``` sh
-        streamlit run app.py
+        chainlit run app.py -w
         ```
 
          
