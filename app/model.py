@@ -21,12 +21,18 @@ def create_chain(dataframe):
     # Load the pre-trained embedding model
     embeddings_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
 
-    # Create a list of Document objects from the dataframe and generate embeddings
+    # Create a list of Document objects from the dataframe
     documents = [Document(page_content=str(row)) for row in dataframe.to_dict(orient="records")]
-    embeddings = [embeddings_model.embed_query(doc.page_content) for doc in documents]
+
+    # Define a wrapper function to handle batch embedding
+    def embed_documents_wrapper(embedding_model, documents):
+        return [embedding_model.embed_query(doc.page_content) for doc in documents]
+
+    # Generate embeddings using the wrapper function
+    embeddings = embed_documents_wrapper(embeddings_model, documents)
 
     # Create the FAISS vector store
-    vectorstore = FAISS.from_documents(documents, embeddings)
+    vectorstore = FAISS.from_texts([doc.page_content for doc in documents], embed_documents_wrapper, metadatas=None)
 
     # Create the VectorStoreRetrieverMemory retriever
     retriever = vectorstore.as_retriever()
