@@ -3,7 +3,7 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.prompts import PromptTemplate
 from langchain_groq import ChatGroq
 from.config import API_KEY, MODEL_NAME, TEMPERATURE
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain.docstore.document import Document
 import pandas as pd
 
