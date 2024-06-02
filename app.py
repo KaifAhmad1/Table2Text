@@ -19,39 +19,33 @@ def set_page_config():
         color: #fff;
         background-color: #0e1117;
     }
-    .css-18e3th9 {
+    .css-18e3th9, .css-1d391kg, .css-hxt7ib {
         background-color: #0e1117;
     }
-    .st-bq {
+    .st-bq, .st-at, .st-ax, .st-ds {
         background-color: #262730;
     }
-    .st-at {
-        background-color: #262730;
-    }
-    .st-ax {
-        background-color: #0e1117;
-    }
-    .st-af {
-        color: #fff;
-    }
-    .st-ao {
-        color: #fff;
-    }
-    .css-10trblm {
+    .st-af, .st-ao, .css-10trblm, .css-1v0mbdj, .css-1lcbmhc {
         color: #fff;
     }
     .st-bs {
         background-color: #1f77b4;
         color: #fff;
     }
-    .css-1v0mbdj {
+    .stTabs [role="tablist"] .stTab {
+        font-size: 18px;
+        font-weight: 500;
         color: #fff;
-    }
-    .css-1lcbmhc {
-        color: #fff;
-    }
-    .st-ds {
         background-color: #0e1117;
+        border: none;
+    }
+    .stTabs [role="tablist"] .stTab:focus, .stTabs [role="tablist"] .stTab:hover {
+        background-color: #1f77b4;
+    }
+    .stTabs [role="tablist"] .stTab.active {
+        color: #1f77b4;
+        background-color: #262730;
+        border: none;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -142,7 +136,7 @@ def display_data_exploration(df):
         x_column_scatter = st.selectbox("Select a column for the x-axis", df.columns, key='scatter_x')
     with col2:
         y_column_scatter = st.selectbox("Select a column for the y-axis", df.columns, key='scatter_y')
-    fig = px.scatter(df, x=x_column_scatter, y=y_column_scatter, hover_data=df.columns)
+    fig = px.scatter(df, x=x_column_scatter, y=y_column_scatter, hover_data=df.columns, template="plotly_dark")
     st.plotly_chart(fig)
 
     st.subheader("Bar Chart")
@@ -151,17 +145,17 @@ def display_data_exploration(df):
         x_column_bar = st.selectbox("Select a column for the x-axis", df.columns, key='bar_x')
     with col2:
         y_column_bar = st.selectbox("Select a column for the y-axis", df.columns, key='bar_y')
-    fig = px.bar(df, x=x_column_bar, y=y_column_bar)
+    fig = px.bar(df, x=x_column_bar, y=y_column_bar, template="plotly_dark")
     st.plotly_chart(fig)
 
     st.subheader("Histogram")
     column_hist = st.selectbox("Select a column for the histogram", df.columns, key='hist_column')
-    fig = px.histogram(df, x=column_hist)
+    fig = px.histogram(df, x=column_hist, template="plotly_dark")
     st.plotly_chart(fig)
 
     st.subheader("Box Plot")
     column_box = st.selectbox("Select a column for the box plot", df.columns, key='box_column')
-    fig = px.box(df, y=column_box)
+    fig = px.box(df, y=column_box, template="plotly_dark")
     st.plotly_chart(fig)
 
     st.subheader("Heatmap")
