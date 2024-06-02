@@ -6,10 +6,6 @@ import matplotlib.pyplot as plt
 from app.model import create_chain
 import os
 
-# Load environment variables
-from dotenv import load_dotenv
-load_dotenv()
-
 # Set the page configuration
 def set_page_config():
     st.set_page_config(page_title="Table2Text", page_icon=":bar_chart:", layout="wide")
