@@ -159,9 +159,13 @@ def display_data_exploration(df):
     st.plotly_chart(fig)
 
     st.subheader("Heatmap")
-    fig, ax = plt.subplots()
-    sns.heatmap(df.corr(), annot=True, ax=ax, cmap="coolwarm")
-    st.pyplot(fig)
+    numeric_df = df.select_dtypes(include=['float64', 'int64'])
+    if not numeric_df.empty:
+        fig, ax = plt.subplots()
+        sns.heatmap(numeric_df.corr(), annot=True, ax=ax, cmap="coolwarm")
+        st.pyplot(fig)
+    else:
+        st.write("No numeric columns available for correlation heatmap.")
 
 # Main function
 def main():
