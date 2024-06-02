@@ -28,9 +28,9 @@ st.image("https://example.com/logo.png")
 
 # Define the conversational chain
 @st.cache_data
-def conversational_chain(df, question):
+def conversational_chain(df, question, chat_history=[]):
     chain = create_chain(df)
-    return chain.run(question=question)
+    return chain.run(question=question, chat_history=chat_history)
 
 # Add a title and description
 st.title("Table2Text")
@@ -72,6 +72,10 @@ if uploaded_file is not None:
             st.subheader("Ask Your Query")
             st.write("Use natural language to ask questions about your data.")
 
+            # Display the conversation history
+            for message in st.session_state.get('chat_history', []):
+                st.write(message)
+
             # Add a section for query input
             question = st.text_input("Enter your query", placeholder="Type your query here...", key='query_input')
 
@@ -79,8 +83,11 @@ if uploaded_file is not None:
             if question:
                 with st.spinner('Processing your query...'):
                     try:
-                        result = conversational_chain(df, question)
+                        result = conversational_chain(df, question, chat_history=st.session_state.get('chat_history', []))
                         st.success(f"**Response:** {result}")
+
+                        # Add the query and response to the conversation history
+                        st.session_state['chat_history'] = st.session_state.get('chat_history', []) + [f"**Query:** {question}", f"**Response:** {result}"]
                     except Exception as e:
                         st.error(f"An error occurred: {e}")
 
