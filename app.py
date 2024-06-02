@@ -3,7 +3,7 @@ import streamlit as st
 import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
-from model import create_chain
+from app.model import create_chain
 import os
 
 # Load environment variables
