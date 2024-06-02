@@ -1,3 +1,5 @@
+# app.py
+
 import pandas as pd
 import streamlit as st
 import plotly.express as px
@@ -24,12 +26,12 @@ st.image("https://example.com/logo.png")
 # Define the conversational chain
 @st.cache_data
 def conversational_chain(df, question):
-    chain = create_chain(df)
+    chain = create_chain(df, question)
     return chain.run(question=question, data=df)
 
 # Add a title and description
 st.title("Table2Text")
-st.write(" A Conversational Data Analysis Application specialize in Analyze your tabular data using natural language queries.")
+st.write("A Conversational Data Analysis Application specializing in analyzing your tabular data using natural language queries.")
 
 # Handle CSV file upload
 uploaded_file = st.sidebar.file_uploader("Upload your CSV file", type="csv")
