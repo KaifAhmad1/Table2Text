@@ -1,4 +1,3 @@
-# model.py
 from langchain.chains import ConversationalRetrievalChain
 from langchain_groq import ChatGroq
 from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -7,8 +6,9 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.retrievers import BM25Retriever
 from langchain.memory import ConversationBufferMemory
 from langchain.schema.document import Document
+import os
 
-def create_chain(data, question):
+def create_chain(data):
     # Initialize the language model
     mistral = ChatGroq(temperature=0.3, groq_api_key="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", model_name="mixtral-8x7b-32768")
 
