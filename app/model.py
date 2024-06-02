@@ -1,12 +1,12 @@
 # model.py
 from langchain.chains import ConversationalRetrievalChain
-from langchain.chat_models import ChatGroq
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.prompts import PromptTemplate
-from langchain.vectorstores import FAISS
-from langchain.retrievers import BM25Retriever
-from langchain.schema import Document
+from langchain_groq import ChatGroq
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_core.prompts import PromptTemplate
+from langchain_community.vectorstores import FAISS
+from langchain_community.retrievers import BM25Retriever
 from langchain.memory import ConversationBufferMemory
+from langchain.schema.document import Document
 
 def create_chain(data, question):
     # Initialize the language model
