@@ -1,3 +1,13 @@
+# model.py
+from langchain.chains import ConversationalRetrievalChain
+from langchain.chat_models import ChatGroq
+from langchain.embeddings import HuggingFaceEmbeddings
+from langchain.prompts import PromptTemplate
+from langchain.vectorstores import FAISS
+from langchain.retrievers import BM25Retriever
+from langchain.schema import Document
+from langchain.memory import ConversationBufferMemory
+
 def create_chain(data, question):
     # Initialize the language model
     mistral = ChatGroq(temperature=0.3, groq_api_key="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", model_name="mixtral-8x7b-32768")
@@ -20,10 +30,6 @@ def create_chain(data, question):
     - To calculate the average age of employees in each department, group the data by department and calculate the mean age for each group.
     - To calculate the correlation between salary and years of experience, use a statistical method such as Pearson correlation coefficient.
     - To identify the department with the highest turnover rate, calculate the turnover rate for each department and compare the rates.
-    Here are some examples of how to answer questions based on the data:
-    - To identify patterns in the data, look for trends, clusters, or outliers.
-    - To compare the performance of different groups, calculate aggregates such as means, medians, or percentiles for each group and compare the results.
-    - To explain the causes of a phenomenon, use statistical methods such as regression analysis or hypothesis testing.
     Here are some specific instructions for numerical calculations:
     - Round numbers to two decimal places when presenting results.
     - Use appropriate statistical methods for data aggregation and analysis.
