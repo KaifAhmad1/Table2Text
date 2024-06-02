@@ -51,8 +51,6 @@ def set_page_config():
     }
     </style>
     """, unsafe_allow_html=True)
-    st.image("https://example.com/logo.png")
-
 # Define the conversational chain
 @st.cache_data
 def conversational_chain(df, question, chat_history=[]):
