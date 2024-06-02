@@ -172,7 +172,7 @@ def main():
     set_page_config()
 
     st.title("Table2Text")
-    st.write("A Conversational Data Analysis Application specializing in analyzing your tabular data using natural language queries.")
+    st.write("A conversational data analysis application powered by Streamlit, Mistral AI, and Langchain. It handles queries on CSV and Pandas DataFrame data, both textual and numerical using natural language queries!.")
 
     df = handle_file_upload()
 
