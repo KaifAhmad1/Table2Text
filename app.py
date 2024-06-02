@@ -68,7 +68,7 @@ def display_data_preview(df):
 # Display query section
 def display_query_section(df):
     st.subheader("Ask Your Query")
-    st.write("Use natural language to ask questions about your data.")
+    st.write("Uses Mistral AI LLM to answer your queries about your data in real time.")
 
     for message in st.session_state.get('chat_history', []):
         st.write(message)
