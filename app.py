@@ -1,10 +1,10 @@
+# app.py
+
 import pandas as pd
 import streamlit as st
 import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
-from app.model import create_chain
-import os
 
 # Load environment variables
 from dotenv import load_dotenv
@@ -51,12 +51,6 @@ def set_page_config():
     """, unsafe_allow_html=True)
     st.image("https://example.com/logo.png")
 
-# Define the conversational chain
-@st.cache_data
-def conversational_chain(df, question, chat_history=[]):
-    chain = create_chain(df)
-    return chain.run(question=question, chat_history=chat_history)
-
 # Handle CSV file upload
 def handle_file_upload():
     uploaded_file = st.sidebar.file_uploader("Upload your CSV file", type="csv")
@@ -84,6 +78,42 @@ def display_data_preview(df):
 
     csv = filtered_df.to_csv(index=False)
     st.download_button("Download filtered data", data=csv, file_name="filtered_data.csv", mime="text/csv")
+
+    # Data Statistics
+    st.subheader("Data Statistics")
+    st.write("Summary statistics of the dataset:")
+    st.write(df.describe())
+
+    st.subheader("Value Counts")
+    st.write("Unique value counts for each column:")
+    for column in df.columns:
+        st.write(f"**{column}:**")
+        st.write(df[column].value_counts())
+
+    # Data Visualization
+    st.subheader("Data Visualization")
+    st.write("Visualize your data with various plots and charts.")
+
+    st.subheader("Histogram")
+    column_hist = st.selectbox("Select a column for the histogram", df.columns, key='hist_column')
+    fig = px.histogram(df, x=column_hist, template="plotly_dark")
+    st.plotly_chart(fig)
+
+    st.subheader("Box Plot")
+    column_box = st.selectbox("Select a column for the box plot", df.columns, key='box_column')
+    fig = px.box(df, y=column_box, template="plotly_dark")
+    st.plotly_chart(fig)
+
+    st.subheader("Heatmap")
+    fig, ax = plt.subplots()
+    sns.heatmap(df.corr(), annot=True, ax=ax, cmap="coolwarm")
+    st.pyplot(fig)
+
+# Define the conversational chain
+@st.cache_data
+def conversational_chain(df, question, chat_history=[]):
+    # Placeholder for your code to create the conversational chain
+    return "This is a placeholder response."
 
 # Display query section
 def display_query_section(df):
@@ -121,47 +151,6 @@ def display_query_section(df):
                     st.session_state['chat_history'] = chat_history
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
-
-# Display data exploration section
-def display_data_exploration(df):
-    st.subheader("Explore Your Data")
-    st.write("Visualize your data with various plots and charts.")
-
-    st.subheader("Statistical Summary")
-    st.write(df.describe())
-
-    st.subheader("Scatter Plot")
-    col1, col2 = st.columns(2)
-    with col1:
-        x_column_scatter = st.selectbox("Select a column for the x-axis", df.columns, key='scatter_x')
-    with col2:
-        y_column_scatter = st.selectbox("Select a column for the y-axis", df.columns, key='scatter_y')
-    fig = px.scatter(df, x=x_column_scatter, y=y_column_scatter, hover_data=df.columns, template="plotly_dark")
-    st.plotly_chart(fig)
-
-    st.subheader("Bar Chart")
-    col1, col2 = st.columns(2)
-    with col1:
-        x_column_bar = st.selectbox("Select a column for the x-axis", df.columns, key='bar_x')
-    with col2:
-        y_column_bar = st.selectbox("Select a column for the y-axis", df.columns, key='bar_y')
-    fig = px.bar(df, x=x_column_bar, y=y_column_bar, template="plotly_dark")
-    st.plotly_chart(fig)
-
-    st.subheader("Histogram")
-    column_hist = st.selectbox("Select a column for the histogram", df.columns, key='hist_column')
-    fig = px.histogram(df, x=column_hist, template="plotly_dark")
-    st.plotly_chart(fig)
-
-    st.subheader("Box Plot")
-    column_box = st.selectbox("Select a column for the box plot", df.columns, key='box_column')
-    fig = px.box(df, y=column_box, template="plotly_dark")
-    st.plotly_chart(fig)
-
-    st.subheader("Heatmap")
-    fig, ax = plt.subplots()
-    sns.heatmap(df.corr(), annot=True, ax=ax, cmap="coolwarm")
-    st.pyplot(fig)
 
 # Main function
 def main():
