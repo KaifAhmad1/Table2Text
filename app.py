@@ -1,27 +1,36 @@
 import pandas as pd
 import streamlit as st
 import plotly.express as px
-import seaborn as sns
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 from app.model import create_chain
 import os
+from dotenv import load_dotenv
 
 # Load environment variables
-from dotenv import load_dotenv
 load_dotenv()
 
 # Set the page configuration
 def set_page_config():
-    st.set_page_config(page_title="Table2Text", page_icon=":bar_chart:", layout="wide")
+    st.set_page_config(
+        page_title="Table2Text",
+        page_icon=":bar_chart:",
+        layout="wide"
+    )
     st.markdown("""
     <style>
     body {
         color: #fff;
         background-color: #111;
     }
+    .stSidebar {
+        background-color: #333;
+    }
+    .css-18e3th9 {
+        padding-top: 3rem;
+    }
     </style>
     """, unsafe_allow_html=True)
-    st.image("https://example.com/logo.png")
+    st.image("https://example.com/logo.png", width=200)
 
 # Define the conversational chain
 @st.cache_data
@@ -97,7 +106,7 @@ def display_data_exploration(df):
     st.write("Visualize your data with various plots and charts.")
 
     st.subheader("Statistical Summary")
-    st.write(df.describe())
+    st.write(df.describe().T)
 
     st.subheader("Scatter Plot")
     col1, col2 = st.columns(2)
@@ -105,7 +114,7 @@ def display_data_exploration(df):
         x_column_scatter = st.selectbox("Select a column for the x-axis", df.columns, key='scatter_x')
     with col2:
         y_column_scatter = st.selectbox("Select a column for the y-axis", df.columns, key='scatter_y')
-    fig = px.scatter(df, x=x_column_scatter, y=y_column_scatter, hover_data=df.columns)
+    fig = px.scatter(df, x=x_column_scatter, y=y_column_scatter, hover_data=df.columns, title=f"Scatter Plot: {x_column_scatter} vs {y_column_scatter}")
     st.plotly_chart(fig)
 
     st.subheader("Bar Chart")
@@ -114,13 +123,12 @@ def display_data_exploration(df):
         x_column_bar = st.selectbox("Select a column for the x-axis", df.columns, key='bar_x')
     with col2:
         y_column_bar = st.selectbox("Select a column for the y-axis", df.columns, key='bar_y')
-    fig = px.bar(df, x=x_column_bar, y=y_column_bar)
+    fig = px.bar(df, x=x_column_bar, y=y_column_bar, title=f"Bar Chart: {x_column_bar} vs {y_column_bar}")
     st.plotly_chart(fig)
 
     st.subheader("Heatmap")
-    fig, ax = plt.subplots()
-    sns.heatmap(df.corr(), annot=True, ax=ax, cmap="coolwarm")
-    st.pyplot(fig)
+    fig = px.imshow(df.corr(), text_auto=True, aspect="auto", color_continuous_scale='Viridis', title="Heatmap of Correlations")
+    st.plotly_chart(fig)
 
 # Main function
 def main():
