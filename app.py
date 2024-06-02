@@ -1,11 +1,14 @@
-# app.py
-
 import pandas as pd
 import streamlit as st
 import plotly.express as px
 import seaborn as sns
 import matplotlib.pyplot as plt
-from app.model import create_chain
+from model import create_chain
+import os
+
+# Load environment variables
+from dotenv import load_dotenv
+load_dotenv()
 
 # Set the page configuration
 st.set_page_config(page_title="Table2Text", page_icon=":bar_chart:", layout="wide")
@@ -26,8 +29,8 @@ st.image("https://example.com/logo.png")
 # Define the conversational chain
 @st.cache_data
 def conversational_chain(df, question):
-    chain = create_chain(df, question)
-    return chain.run(question=question, data=df)
+    chain = create_chain(df)
+    return chain.run(question=question)
 
 # Add a title and description
 st.title("Table2Text")
