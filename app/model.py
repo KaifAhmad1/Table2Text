@@ -7,10 +7,12 @@ from langchain_community.retrievers import BM25Retriever
 from langchain.memory import ConversationBufferMemory
 from langchain.schema.document import Document
 import os
+from app.config import API_KEY, MODEL_NAME, TEMPERATURE
+
 
 def create_chain(data):
     # Initialize the language model
-    mistral = ChatGroq(temperature=0.3, groq_api_key="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", model_name="mixtral-8x7b-32768")
+    mistral = ChatGroq(temperature=TEMPERATURE, groq_api_key=API_KEY, model_name=MODEL_NAME)
 
     # Define the prompt template
     prompt_template = """
