@@ -63,7 +63,7 @@ This is the main script that runs the Streamlit application. It sets up the web 
 This file contains configuration parameters for the model, such as the model ID, maximum output tokens, and the Groq API key.
 
 - ### **`model.py`**
-This script handles the creation and interaction with the Langchain model. It includes functions to initialize the model and define the chatbot's behavior.
+This script uses Langchain to analyze tabular data with natural language queries. It initializes a language model, creates a vector store and retriever, and sets up memory for chat history. The chain can answer queries about the data, such as average age, correlation, and turnover rate. It also provides examples of good and bad queries and data interpretation instructions.
 
 - ### **`requirements.txt`**
   This file lists all the Python dependencies required for the project. Use `pip install -r requirements.txt` to install these dependencies.
