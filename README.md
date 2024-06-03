@@ -4,6 +4,7 @@ Table2Text is a Streamlit application powered by Open Source techstack `Mistral-
      - Data Preview
      - Query
      - Data Exploration
+- **Platform Link:** [Table2Text](https://table2textapplication.streamlit.app/)
 ### **Features and Usage:** 
   - ### **Upload CSV Files:**
     - Easily upload your CSV files for analysis.
