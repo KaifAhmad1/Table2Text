@@ -1,26 +1,42 @@
 # Table2Text
 Table2Text is a Streamlit application powered by Open Source techstack `Mistral-8x7b-32k` language model by Mistral AI and the Langchain framework. It assists with queries related to tabular data, such as CSV or Pandas DataFrame, which consist of textual and numerical information.
+- **This application has three Sections:**
+     - Data Preview
+     - Query
+     - Data Exploration
 ### **Features and Usage:** 
-  - **Upload CSV Files:**
+  - ### **Upload CSV Files:**
     - Easily upload your CSV files for analysis.
     - Use the file uploader in the sidebar to upload your CSV file.
-  - **Data Preview:**
+
+  - ### **Data Preview:**
     - Preview and filter your data directly in the app.
     - View and filter your data in the `Data Preview` tab.
     - Select columns and filter values to customize the data displayed.
     - Download the filtered data if needed.
-  - **Natural Language Queries:**
+  -   ![Data Preview](https://github.com/KaifAhmad1/Table2Text/blob/main/Images/Data%20Preview.png)
+  - ### **Natural Language Queries:**
     - Ask questions about your data and get instant real-time responses using Mistral AI and Groq.
     - Navigate to the `Query` tab to ask questions about your data.
     - Enter your query in the text input field and get instant responses.
     - Follow up with additional questions to refine your analysis.
-  - **Data Exploration:**
+  - **Query:**
+      - ![Query](https://github.com/KaifAhmad1/Table2Text/blob/main/Images/Query.png)
+  - **Follow Up:**
+      - ![Follow Up](https://github.com/KaifAhmad1/Table2Text/blob/main/Images/Follow%20Up%20Query.png)
+  - ### **Data Exploration:**
     - Visualize your data with scatter plots, bar charts, and heatmaps.
     - In the `Data Exploration` tab, visualize your data using various charts:
-     - Statistical Summary
-     - Scatter Plot
-     - Bar Chart
-     - Heatmap
+  - **Statistical Summary:**
+        - ![Statics Summary](https://github.com/KaifAhmad1/Table2Text/blob/main/Images/Statical%20Summary.png)
+  - **Scatter Plot:** 
+        - ![Scattorplot](https://github.com/KaifAhmad1/Table2Text/blob/main/Images/Scatter%20Plot.png)
+  - **Bar Chart:**
+        - ![Bar Chart](https://github.com/KaifAhmad1/Table2Text/blob/main/Images/Bar%20Chart.png)
+  - **Box Plots:**
+        - ![Box Plot](https://github.com/KaifAhmad1/Table2Text/blob/main/Images/Box%20Plot.png)
+  - **Heatmap:** 
+
   
 ``` 
 Table2Text/
