@@ -72,6 +72,12 @@ This script handles the creation and interaction with the Langchain model. It in
         ``` sh
         streamlit run app.py
         ```
-
+## Acknowledgements: 
+- [Langchain](https://github.com/langchain-ai/langchain)
+- [Streamlit](https://github.com/streamlit/streamlit)
+- [Mistral AI](https://github.com/mistralai)
+- [FAISS](https://github.com/facebookresearch/faiss)
+- [Groq](https://github.com/groq)
+  
          
 
