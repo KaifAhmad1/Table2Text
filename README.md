@@ -73,11 +73,11 @@ This script handles the creation and interaction with the Langchain model. It in
         streamlit run app.py
         ```
 ## Acknowledgements: 
-- [Langchain](https://github.com/langchain-ai/langchain)
-- [Streamlit](https://github.com/streamlit/streamlit)
-- [Mistral AI](https://github.com/mistralai)
-- [FAISS](https://github.com/facebookresearch/faiss)
-- [Groq](https://github.com/groq)
+- [Langchain](https://github.com/langchain-ai/langchain) LLM orchestration Framework for Builinding Application
+- [Streamlit](https://github.com/streamlit/streamlit) For Building Simple but Effective UI 
+- [Mistral AI](https://github.com/mistralai) For Open Source Mistral 8*7B LLM 
+- [FAISS](https://github.com/facebookresearch/faiss) For Efficient Similarity Search in Tabular Data. 
+- [Groq](https://github.com/groq) For Real-Time Responses powered by Low-Latency LPU Inference. 
   
          
 
