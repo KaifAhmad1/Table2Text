@@ -1,5 +1,5 @@
 # Table2Text
-Table2Text is a Streamlit application powered by `Mistral-8x7b-32k` language model by Mistral AI and the Langchain framework. It assists with queries related to tabular data, such as CSV or Pandas DataFrame, which consist of textual and numerical information.
+Table2Text is a Streamlit application powered by Open Source techstack `Mistral-8x7b-32k` language model by Mistral AI and the Langchain framework. It assists with queries related to tabular data, such as CSV or Pandas DataFrame, which consist of textual and numerical information.
 ### **Features and Usage:** 
   - **Upload CSV Files:**
     - Easily upload your CSV files for analysis.
