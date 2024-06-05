@@ -36,9 +36,8 @@ Table2Text is a Streamlit application powered by Open Source techstack `Mistral-
         - ![Bar Chart](https://github.com/KaifAhmad1/Table2Text/blob/main/Images/Bar%20Chart.png)
   - **Box Plots:**
         - ![Box Plot](https://github.com/KaifAhmad1/Table2Text/blob/main/Images/Box%20Plot.png)
-  - **Heatmap:** 
 
-  
+### Repository Structure 
 ``` 
 Table2Text/
 │
