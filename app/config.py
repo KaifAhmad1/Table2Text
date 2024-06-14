@@ -1,5 +1,5 @@
 # Configuration file for the app
-API_KEY = "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"
+API_KEY = "Your API Key"
 MODEL_NAME = "mixtral-8x7b-32768"
 TEMPERATURE = 0
 
